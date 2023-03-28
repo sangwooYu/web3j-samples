@@ -17,12 +17,14 @@ public class Calculate {
 	}
 
 	/**
-	 * 发布前 计算合约地址
+	 * 릴리스 전에 컨트랙트 주소 계산
 	 */
 	private static String calculateContractAddress(String address, long nonce) {
-		//样例 https://ropsten.etherscan.io/tx/0x728a95b02beec3de9fb09ede00ca8ca6939bad2ad26c702a8392074dc04844c7
+		// address
 		byte[] addressAsBytes = Numeric.hexStringToByteArray(address);
 
+		// String 형태의 address를 hexAddress로 변경
+		// hexaddress 형태의 address를 직렬화 시키고 해쉬로 감싼게 연산된 컨트랙트 주소
 		byte[] calculatedAddressAsBytes =
 				Hash.sha3(RlpEncoder.encode(
 						new RlpList(
@@ -32,14 +34,15 @@ public class Calculate {
 		calculatedAddressAsBytes = Arrays.copyOfRange(calculatedAddressAsBytes,
 				12, calculatedAddressAsBytes.length);
 		String calculatedAddressAsHex = Numeric.toHexString(calculatedAddressAsBytes);
+		// Hex형태의 Address를 리턴
 		return calculatedAddressAsHex;
 	}
 
 	/**
-	 * 提交前 计算交易hash
+	 * 제출하기 전에 트랜잭션 해시 계산
 	 */
 	private static String caculateTransactionHash(String signedData) {
-		//样例 https://ropsten.etherscan.io/tx/0xfd8acd10d72127f29f0a01d8bcaf0165665b5598781fe01ca4bceaa6ab9f2cb0
+		// signedData를 바탕으로 TransactionHash를 리턴
 		String txHash = Hash.sha3(signedData);
 		return txHash;
 	}

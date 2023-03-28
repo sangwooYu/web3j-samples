@@ -31,10 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 冷钱包
- * 账号 交易相关
+ * ColdWallet
+ * 계좌 거래 관련
  */
 public class ColdWallet {
+
+	// http://wiki.hash.kr/index.php/%EC%BD%9C%EB%93%9C%EC%9B%94%EB%A0%9B
+	// 콜드월렛(cold wallet)은 암호화폐의 소유권 증명이 가능한 개인 키(프라이빗 키)를 보관할 수 있는 암호화폐 지갑의 한 종류이다.
+	// 콜드월렛은 인터넷과 연결되어 있지 않는 특성을 가지고 있으며 대개 USB, 카드 같은 하드웨어의 모습을 하고 있기 때문에 하드웨어 월렛(hardware wallet) 혹은 하드월렛(hard wallet)이라고도 부른다.
+	// 콜드월렛은 보안성이 상대적으로 높다고 알려져 있으며 다양한 암호화폐를 한 군데 저장할 수 있어 편리하다.
 
 	private static Web3j web3j;
 
@@ -73,7 +78,7 @@ public class ColdWallet {
 		String to = "0x6c0f49aF552F2326DD851b68832730CB7b6C0DaF".toLowerCase();
 		BigInteger value = Convert.toWei(BigDecimal.valueOf(0.5), Convert.Unit.ETHER).toBigInteger();
 		String data = "";
-		byte chainId = ChainId.ROPSTEN;//测试网络
+		byte chainId = ChainId.ROPSTEN;// 테스트 네트워크
 		String privateKey = ColdWallet.privateKey;
 		String signedData;
 		try {
@@ -101,7 +106,7 @@ public class ColdWallet {
 		BigInteger gasPrice = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
 		BigInteger gasLimit = BigInteger.valueOf(60000);
 		BigInteger value = BigInteger.ZERO;
-		//token转账参数
+		//토큰 전송 매개변수
 		String methodName = "transfer";
 		List<Type> inputParameters = new ArrayList<>();
 		List<TypeReference<?>> outputParameters = new ArrayList<>();
@@ -130,9 +135,9 @@ public class ColdWallet {
 
 
 	/**
-	 * 创建钱包
+	 * 지갑 생성
 	 *
-	 * @param password 密码
+	 * @param password 비밀번호
 	 */
 	public static void createWallet(String password) throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, CipherException, JsonProcessingException {
 		WalletFile walletFile;
@@ -145,7 +150,7 @@ public class ColdWallet {
 	}
 
 	/**
-	 * 解密keystore 得到私钥
+	 * 개인 키를 얻기 위해 키 저장소를 해독.
 	 *
 	 * @param keystore
 	 * @param password
@@ -161,7 +166,7 @@ public class ColdWallet {
 			System.out.println(privateKey);
 		} catch (CipherException e) {
 			if ("Invalid password provided".equals(e.getMessage())) {
-				System.out.println("密码错误");
+				System.out.println("wrong password");
 			}
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -171,7 +176,7 @@ public class ColdWallet {
 	}
 
 	/**
-	 * 签名交易
+	 * 서명 거래
 	 */
 	public static String signTransaction(BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String to,
 										 BigInteger value, String data, byte chainId, String privateKey) throws IOException {

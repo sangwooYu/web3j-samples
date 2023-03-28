@@ -18,23 +18,22 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 以太坊助记词
- * 用到了比特币的jar包 org.bitcoinj
+ * 이더리움 니모닉 (지갑을 복구하기 위한 12개의 단어)
+ * bitcoin org.bitcoinj의 jar 패키지 사용
  */
 public class EthMnemonic {
 	/**
-	 * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
+	 * bip44 프로토콜 기반의 일반 이더리움 니모닉 경로(imtoken jaxx Metamask myetherwallet)
 	 */
 	private static String ETH_TYPE = "m/44'/60'/0'/0/0";
 
 	private static SecureRandom secureRandom = new SecureRandom();
 
 	public static void main(String[] args) {
-		//生成助记词
+		//니모닉 생성
 		generateMnemonic(ETH_TYPE, "11111111");
 
-
-		//导入助记词
+		//니모닉 가져오기
 		//[team, bid, property, oval, hedgehog, observe, badge, cabin, color, cruel, casino, blame]
 		List<String> list = new ArrayList<>();
 		list.add("team");
@@ -54,17 +53,17 @@ public class EthMnemonic {
 
 	public static EthHDWallet generateMnemonic(String path, String password) {
 		if (!path.startsWith("m") && !path.startsWith("M")) {
-			//参数非法
+			//매개변수가 잘못되었습니다.
 			return null;
 		}
 		String[] pathArray = path.split("/");
 		if (pathArray.length <= 1) {
-			//内容不对
+			// 내용이 잘못되었습니다.
 			return null;
 		}
 
 		if (password.length() < 8) {
-			//密码过短
+			//비밀번호가 너무 짧습니다
 			return null;
 		}
 
@@ -76,16 +75,16 @@ public class EthMnemonic {
 
 	private static EthHDWallet importMnemonic(String path, List<String> list, String password) {
 		if (!path.startsWith("m") && !path.startsWith("M")) {
-			//参数非法
+			//매개변수가 잘못되었습니다.
 			return null;
 		}
 		String[] pathArray = path.split("/");
 		if (pathArray.length <= 1) {
-			//内容不对
+			// 내용이 잘못되었습니다.
 			return null;
 		}
 		if (password.length() < 8) {
-			//密码过短
+			//비밀번호가 너무 짧습니다
 			return null;
 		}
 		String passphrase = "";
@@ -96,31 +95,32 @@ public class EthMnemonic {
 	}
 
 	private static EthHDWallet createEthWallet(DeterministicSeed ds, String[] pathArray, String password) {
-		//根私钥
+		//아래는 니모닉을 이용해 이더리움 지갑 생성 시 거치게 되는 과정들입니다.
+		//루트 개인 키
 		byte[] seedBytes = ds.getSeedBytes();
-		System.out.println("根私钥 " + Arrays.toString(seedBytes));
-		//助记词
+		System.out.println("루트 개인 키" + Arrays.toString(seedBytes));
+		//니모닉
 		List<String> mnemonic = ds.getMnemonicCode();
-		System.out.println("助记词 " + Arrays.toString(mnemonic.toArray()));
+		System.out.println("니모닉 " + Arrays.toString(mnemonic.toArray()));
 
 		try {
-			//助记词种子
+			//니모닉 시드
 			byte[] mnemonicSeedBytes = MnemonicCode.INSTANCE.toEntropy(mnemonic);
-			System.out.println("助记词种子 " + Arrays.toString(mnemonicSeedBytes));
+			System.out.println("니모닉 시드" + Arrays.toString(mnemonicSeedBytes));
 			ECKeyPair mnemonicKeyPair = ECKeyPair.create(mnemonicSeedBytes);
 			WalletFile walletFile = Wallet.createLight(password, mnemonicKeyPair);
 			ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
-			//存这个keystore 用完后删除
+			//이 키 저장소를 저장하고 사용 후 삭제합니다.
 			String jsonStr = objectMapper.writeValueAsString(walletFile);
 			System.out.println("mnemonic keystore " + jsonStr);
-			//验证
+			//확인하다
 			WalletFile checkWalletFile = objectMapper.readValue(jsonStr, WalletFile.class);
 			ECKeyPair ecKeyPair = Wallet.decrypt(password, checkWalletFile);
 			byte[] checkMnemonicSeedBytes = Numeric.hexStringToByteArray(ecKeyPair.getPrivateKey().toString(16));
-			System.out.println("验证助记词种子 "
+			System.out.println("니모닉 시드 확인"
 					+ Arrays.toString(checkMnemonicSeedBytes));
 			List<String> checkMnemonic = MnemonicCode.INSTANCE.toMnemonic(checkMnemonicSeedBytes);
-			System.out.println("验证助记词 " + Arrays.toString(checkMnemonic.toArray()));
+			System.out.println("니모닉 확인" + Arrays.toString(checkMnemonic.toArray()));
 
 		} catch (MnemonicException.MnemonicLengthException | MnemonicException.MnemonicWordException | MnemonicException.MnemonicChecksumException | CipherException | IOException e) {
 			e.printStackTrace();

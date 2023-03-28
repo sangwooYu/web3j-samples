@@ -1,12 +1,15 @@
 package com.ethjava;
 
-import jdk.internal.misc.Unsafe;
+import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 
 public class ClearMemory {
+
+	// Unsafe와 관련된 내용은 http://younghwannam.blogspot.com/2018/11/javathreadunsafe-sunmiscunsafe-1.html 참고
+	// 당장 low-level 프로그래밍을 할 것 같지는 않기 때문에, 이 부분의 구현은 패스합니다.
 
 	public static Unsafe UNSAFE = null;
 

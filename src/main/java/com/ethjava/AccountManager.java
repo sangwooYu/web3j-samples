@@ -48,6 +48,7 @@ public class AccountManager {
 			addressList = personalListAccounts.getAccountIds();
 			System.out.println("account size " + addressList.size());
 			for (String address : addressList) {
+				// 가져온 지갑 주소들을 반복문 돌려가며 출력합니다.
 				System.out.println(address);
 			}
 		} catch (IOException e) {
@@ -56,14 +57,18 @@ public class AccountManager {
 	}
 
 	/**
-	 * 账号解锁
+	 * 계정 잠금 해제
 	 */
 	private static void unlockAccount() {
 		String address = "0x05f50cd5a97d9b3fec35df3d0c6c8234e6793bdf";
 		String password = "123456789";
-		//账号解锁持续时间 单位秒 缺省值300秒
+		// 계정 잠금 해제 기간, 단위 초, 기본값은 300초
+		// 기본적으로 Geth의 계정은 "잠겨" 있으며, 이는 해당 계정에서 트랜잭션을 보낼 수 없음을 의미합니다. Geth를 통해 직접 또는 RPC를 통해 거래를 보내려면 계정을 잠금 해제해야 합니다(web3는 이를 지원하지 않음). 계정 잠금을 해제하려면 계정과 연결된 개인 키를 해독하는 데 사용되는 암호를 제공해야 거래에 서명할 수 있습니다.
+		// https://ethereum.stackexchange.com/questions/4157/how-to-unlock-the-account-with-geth
+		// 사고를 방지하기 위해서(?) 각각의 주소는 통상적으로 열려있지 않은게 바람직
 		BigInteger unlockDuration = BigInteger.valueOf(60L);
 		try {
+			// 주소값과 비밀번호, 언락할 시간을 받아 account를 언락처리합니다.
 			PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(address, password, unlockDuration).send();
 			Boolean isUnlocked = personalUnlockAccount.accountUnlocked();
 			System.out.println("account unlock " + isUnlocked);
