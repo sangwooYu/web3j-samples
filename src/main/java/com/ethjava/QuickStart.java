@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 /**
- * 快速开始
+ * 빠른 시작
  */
 public class QuickStart {
 

@@ -27,10 +27,10 @@ public class Security {
 	}
 
 	/**
-	 * 导出私钥
+	 * 개인 키 내보내기
 	 *
-	 * @param keystorePath 账号的keystore路径
-	 * @param password     密码
+	 * @param keystorePath 계정 키 저장소 경로
+	 * @param password     비밀번호
 	 */
 	private static void exportPrivateKey(String keystorePath, String password) {
 		try {
@@ -45,11 +45,11 @@ public class Security {
 	}
 
 	/**
-	 * 导入私钥
+	 * 개인 키 가져오기
 	 *
-	 * @param privateKey 私钥
-	 * @param password   密码
-	 * @param directory  存储路径 默认测试网络WalletUtils.getTestnetKeyDirectory() 默认主网络 WalletUtils.getMainnetKeyDirectory()
+	 * @param privateKey 개인 키
+	 * @param password   비밀번호
+	 * @param directory  저장 경로. 기본 테스트 네트워크: WalletUtils.getTestnetKeyDirectory(), 기본 네트워크: WalletUtils.getMainnetKeyDirectory()
 	 */
 	private static void importPrivateKey(BigInteger privateKey, String password, String directory) {
 		ECKeyPair ecKeyPair = ECKeyPair.create(privateKey);
@@ -65,14 +65,14 @@ public class Security {
 	}
 
 	/**
-	 * 生成带助记词的账号
+	 * 니모닉으로 계정 생성
 	 *
 	 * @param keystorePath
 	 * @param password
 	 */
 	private static void exportBip39Wallet(String keystorePath, String password) {
 		try {
-			// TODO: 2018/3/14 会抛异常 已经向官方提issue 待回复
+			// TODO: 2018년 3월 14일에 예외가 발생합니다. 답변을 위해 공식에 문제가 제출되었습니다.
 			Bip39Wallet bip39Wallet = WalletUtils.generateBip39Wallet(password, new File(keystorePath));
 			System.out.println(bip39Wallet);
 		} catch (CipherException | IOException e) {

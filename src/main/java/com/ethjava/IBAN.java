@@ -11,11 +11,12 @@ import static java.lang.Integer.parseInt;
 public class IBAN {
 
 	/**
-	 * 根据官方支持的IBAN规则生成二维码 目前支持的有imtoken kcash
-	 * 参考url
+	 * 공식적으로 지원되는 IBAN (국제 은행 계좌 번호) 규칙을 기반으로 QR 코드 생성 현재 지원되는 지갑은 imtoken 입니다.
+	 * 참조 URL
 	 * https://github.com/ethereum/web3.js/blob/develop/lib/web3/iban.js
-	 * 可以防止地址错误（有两位校验和）
+	 * 주소 오류 방지 가능(2자리 체크섬 사용)
 	 */
+
 	public static void main(String[] args) {
 		getIBAN();
 	}
@@ -60,7 +61,7 @@ public class IBAN {
 		String IBAN = "XE" + checkDigit + bban;
 		String qrCodeString = "iban:" + IBAN + "?token=ETH&amount=5";
 		System.out.println("IBAN " + IBAN);
-		System.out.println("验证 " + validateIBAN(IBAN));
+		System.out.println("확인하다 " + validateIBAN(IBAN));
 		System.out.println("qrcode " + qrCodeString);
 		decodeQRString(qrCodeString);
 	}

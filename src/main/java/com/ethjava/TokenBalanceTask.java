@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 批量查询token余额
+ * 일괄 쿼리 토큰 잔액
  */
 public class TokenBalanceTask {
 
@@ -31,16 +31,16 @@ public class TokenBalanceTask {
 
 	private static Web3j web3j;
 
-	//要查询的token合约地址
+	//조회할 토큰 컨트랙트 주소
 	private static List<Token> tokenList;
 
-	//要查询的钱包地址
+	//조회할 지갑 주소
 	private static List<String> addressList;
 
 	public static void main(String[] args) {
 		web3j = Web3j.build(new HttpService(Environment.RPC_URL));
 		loadData();
-		//如果没有decimals则需要请求
+		//소수점이 없으면 요청해야 합니다. (소수점 자리수가 정확하지 않을 때 그대로 진행하면 잘못된 Balance로 파악할 수 있으므로)
 		requestDecimals();
 		requestName();
 		processTask();

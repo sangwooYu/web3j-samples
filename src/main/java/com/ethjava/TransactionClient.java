@@ -34,10 +34,10 @@ public class TransactionClient {
 	}
 
 	/**
-	 * 获取余额
+	 * 균형을 잡아
 	 *
-	 * @param address 钱包地址
-	 * @return 余额
+	 * @param address 지갑 주소
+	 * @return 균형
 	 */
 	private static BigInteger getBalance(String address) {
 		BigInteger balance = null;
@@ -52,15 +52,15 @@ public class TransactionClient {
 	}
 
 	/**
-	 * 生成一个普通交易对象
+	 * 공통 거래 객체 생성
 	 *
-	 * @param fromAddress 放款方
-	 * @param toAddress   收款方
-	 * @param nonce       交易序号
-	 * @param gasPrice    gas 价格
-	 * @param gasLimit    gas 数量
-	 * @param value       金额
-	 * @return 交易对象
+	 * @param fromAddress
+	 * @param toAddress
+	 * @param nonce       거래 번호
+	 * @param gasPrice    gas 가격
+	 * @param gasLimit    gas 한계
+	 * @param value       amount
+	 * @return 거래 파트너
 	 */
 	private static Transaction makeTransaction(String fromAddress, String toAddress,
 											   BigInteger nonce, BigInteger gasPrice,
@@ -71,10 +71,10 @@ public class TransactionClient {
 	}
 
 	/**
-	 * 获取普通交易的gas上限
+	 * 일반 거래의 가스 한도 얻기
 	 *
-	 * @param transaction 交易对象
-	 * @return gas 上限
+	 * @param transaction 거래 파트너
+	 * @return gas 상한
 	 */
 	private static BigInteger getTransactionGasLimit(Transaction transaction) {
 		BigInteger gasLimit = BigInteger.ZERO;
@@ -88,9 +88,9 @@ public class TransactionClient {
 	}
 
 	/**
-	 * 获取账号交易次数 nonce
+	 * 계정 트랜잭션 시간 nonce 가져오기
 	 *
-	 * @param address 钱包地址
+	 * @param address 지갑 주소
 	 * @return nonce
 	 */
 	private static BigInteger getTransactionNonce(String address) {
@@ -105,9 +105,9 @@ public class TransactionClient {
 	}
 
 	/**
-	 * 发送一个普通交易
+	 * 정상적인 거래 보내기
 	 *
-	 * @return 交易 Hash
+	 * @return 트랜잭션 Hash
 	 */
 	private static String sendTransaction() {
 		String password = "yzw";
@@ -120,11 +120,11 @@ public class TransactionClient {
 				BigInteger value = Convert.toWei(amount, Convert.Unit.ETHER).toBigInteger();
 				Transaction transaction = makeTransaction(fromAddress, toAddress,
 						null, null, null, value);
-				//不是必须的 可以使用默认值
+				//필수는 아니며 기본값을 사용할 수 있습니다.
 				BigInteger gasLimit = getTransactionGasLimit(transaction);
-				//不是必须的 缺省值就是正确的值
+				// 필수는 아님, 기본값은 올바른 값이어야합니다.
 				BigInteger nonce = getTransactionNonce(fromAddress);
-				//该值为大部分矿工可接受的gasPrice
+				// 이 값은 대부분의 채굴자가 수용할 수 있는 가스 가격입니다.
 				BigInteger gasPrice = Convert.toWei(defaultGasPrice, Convert.Unit.GWEI).toBigInteger();
 				transaction = makeTransaction(fromAddress, toAddress,
 						nonce, gasPrice,
@@ -139,5 +139,5 @@ public class TransactionClient {
 		return txHash;
 	}
 
-	//使用 web3j.ethSendRawTransaction() 发送交易 需要用私钥自签名交易 详见ColdWallet.java
+	//web3j.ethSendRawTransaction()을 사용하여 트랜잭션을 보내려면 개인 키를 사용하여 트랜잭션을 자체 서명해야 합니다
 }

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
- * 基于ERC20的代币
+ * ERC20 기반 토큰
  */
 public class TokenClient {
 
@@ -61,7 +61,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 查询代币余额
+	 * 쿼리 토큰 잔액
 	 */
 	public static BigInteger getTokenBalance(Web3j web3j, String fromAddress, String contractAddress) {
 
@@ -91,7 +91,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 查询代币名称
+	 * 쿼리 토큰 이름
 	 *
 	 * @param web3j
 	 * @param contractAddress
@@ -125,7 +125,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 查询代币符号
+	 * 쿼리 토큰 기호
 	 *
 	 * @param web3j
 	 * @param contractAddress
@@ -159,7 +159,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 查询代币精度
+	 * 쿼리 토큰 정확도
 	 *
 	 * @param web3j
 	 * @param contractAddress
@@ -193,7 +193,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 查询代币发行总量
+	 * 총 발행량 조회
 	 *
 	 * @param web3j
 	 * @param contractAddress
@@ -227,7 +227,7 @@ public class TokenClient {
 	}
 
 	/**
-	 * 代币转账
+	 * 토큰 전송
 	 */
 	public static String sendTokenTransaction(String fromAddress, String password, String toAddress, String contractAddress, BigInteger amount) {
 		String txHash = null;

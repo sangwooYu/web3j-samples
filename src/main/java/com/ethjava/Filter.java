@@ -9,9 +9,9 @@ import rx.Subscription;
 import java.math.BigInteger;
 
 /**
- * filter相关
- * 监听区块、交易
- * 所有监听都在Web3jRx中
+ * 필터 관련
+ * 블록 및 트랜잭션 모니터링
+ * 모든 리스너는 Web3jRx에 있음
  */
 public class Filter {
 	private static Web3j web3j;
@@ -19,24 +19,24 @@ public class Filter {
 	public static void main(String[] args) {
 		web3j = Web3j.build(new HttpService(Environment.RPC_URL));
 		/**
-		 * 新区块监听
+		 * 새로운 블록 모니터링
 		 */
 		newBlockFilter(web3j);
 		/**
-		 * 新交易监听
+		 * 새로운 트랜잭션 모니터링
 		 */
 		newTransactionFilter(web3j);
 		/**
-		 * 遍历旧区块、交易
+		 * 오래된 블록, 트랜잭션 트래버스
 		 */
 		replayFilter(web3j);
 		/**
-		 * 从某一区块开始直到最新区块、交易
+		 * 특정 블록부터 최신 블록까지, 트랜잭션
 		 */
 		catchUpFilter(web3j);
 
 		/**
-		 * 取消监听
+		 * 듣기 취소
 		 */
 		//subscription.unsubscribe();
 	}
@@ -63,7 +63,7 @@ public class Filter {
 		BigInteger startBlock = BigInteger.valueOf(2000000);
 		BigInteger endBlock = BigInteger.valueOf(2010000);
 		/**
-		 * 遍历旧区块
+		 * 이전 블록 통과
 		 */
 		Subscription subscription = web3j.
 				replayBlocksObservable(
@@ -76,7 +76,7 @@ public class Filter {
 				});
 
 		/**
-		 * 遍历旧交易
+		 * 오래된 트랜잭션 반복
 		 */
 		Subscription subscription1 = web3j.
 				replayTransactionsObservable(
@@ -92,7 +92,7 @@ public class Filter {
 		BigInteger startBlock = BigInteger.valueOf(2000000);
 
 		/**
-		 * 遍历旧区块，监听新区块
+		 * 이전 블록 탐색 및 새 블록 듣기
 		 */
 		Subscription subscription = web3j.catchUpToLatestAndSubscribeToNewBlocksObservable(
 				DefaultBlockParameter.valueOf(startBlock), false)
@@ -102,7 +102,7 @@ public class Filter {
 				});
 
 		/**
-		 * 遍历旧交易，监听新交易
+		 * 이전 트랜잭션을 탐색하고 새 트랜잭션을 수신합니다.
 		 */
 		Subscription subscription2 = web3j.catchUpToLatestAndSubscribeToNewTransactionsObservable(
 				DefaultBlockParameter.valueOf(startBlock))
