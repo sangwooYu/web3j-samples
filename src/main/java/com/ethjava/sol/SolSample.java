@@ -17,8 +17,10 @@ public class SolSample {
 	}
 
 	private static void deploy() {
+		// 웹3j 객체 빌드 & 생성
 		Web3j web3j = Web3j.build(new HttpService(Environment.RPC_URL));
-		Credentials credentials = null;//可以根据私钥生成
+		Credentials credentials = null; // 개인키에 따라 생성 가능
+		// deploy
 		RemoteCall<TokenERC20> deploy = TokenERC20.deploy(web3j, credentials,
 				Convert.toWei("10", Convert.Unit.GWEI).toBigInteger(),
 				BigInteger.valueOf(3000000),
@@ -28,15 +30,18 @@ public class SolSample {
 			TokenERC20 tokenERC20 = deploy.send();
 			tokenERC20.isValid();
 		} catch (Exception e) {
+			// deploy 실패 시 StackTrace 프린트
 			e.printStackTrace();
 		}
 
 	}
 
 	private static void use() {
+		// 웹3j 객체 빌드 & 생성
 		Web3j web3j = Web3j.build(new HttpService(Environment.RPC_URL));
 		String contractAddress = null;
-		Credentials credentials = null;//可以根据私钥生成
+		Credentials credentials = null; // 개인키에 따라 생성 가능
+		// 토큰 loading
 		TokenERC20 contract = TokenERC20.load(contractAddress, web3j, credentials,
 				Convert.toWei("10", Convert.Unit.GWEI).toBigInteger(),
 				BigInteger.valueOf(100000));
@@ -48,6 +53,7 @@ public class SolSample {
 			TransactionReceipt receipt = contract.transfer(toAddress, amount).send();
 			//etc..
 		} catch (Exception e) {
+			// send 실패 시 StackTrace 프린트
 			e.printStackTrace();
 		}
 	}

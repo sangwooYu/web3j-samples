@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * 账号管理相关
+ * 계정 관리 관련
  */
 public class AccountManager {
 	private static Admin admin;
@@ -23,28 +23,26 @@ public class AccountManager {
 		getAccountList();
 		unlockAccount();
 
-//		admin.personalSendTransaction(); 该方法与web3j.sendTransaction相同 不在此写例子。
+//		admin.personalSendTransaction();
+// 위 메소드는 web3j.sendTransaction과 동일하므로 여기에 예제를 작성하지 마십시오.
 	}
 
-	/**
-	 * 创建账号
-	 */
 	private static void createNewAccount() {
 		String password = "123456789";
 		try {
+			// password 값 만을 이용하여, 새로운 account고유생성자를 만듭니다.
 			NewAccountIdentifier newAccountIdentifier = admin.personalNewAccount(password).send();
 			String address = newAccountIdentifier.getAccountId();
+			// 고유생성자 객체에서 getAccountId() 를 사용하면 지갑주소를 얻을 수 있습니다.
 			System.out.println("new account address " + address);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * 获取账号列表
-	 */
 	private static void getAccountList() {
 		try {
+			// admin 객체에서 계정들을 가져옵니다.
 			PersonalListAccounts personalListAccounts = admin.personalListAccounts().send();
 			List<String> addressList;
 			addressList = personalListAccounts.getAccountIds();

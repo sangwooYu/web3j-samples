@@ -1,6 +1,6 @@
 package com.ethjava;
 
-import sun.misc.Unsafe;
+import jdk.internal.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
